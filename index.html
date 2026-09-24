@@ -487,7 +487,7 @@
     studentAttendance.forEach(name=>{
       const rec=getRec(studentTraffic,name),status=rec.status||"none";
       const card=document.createElement("button");card.type="button";card.className=`student-card clickable ${status!=="none"?`status-${status}`:""}`;card.onclick=()=>openStatusModal(name,status);
-      const mark=status==="none"?"?":"✓";
+      const mark=status==="none"?"?":({green:"😊",yellow:"😐",red:"☹️"}[status]||"?");
       card.innerHTML=`<div class="status-mark">${mark}</div><div class="student-name">${escapeHtml(shortName(name))}</div>`;grid.appendChild(card);
     });
     fitGridToScreen(grid,studentAttendance.length);
@@ -500,7 +500,7 @@
     teacherAttendance.forEach(name=>{
       const rec=getRec(teacherTraffic,name),status=rec.status||"none";counts[status]=(counts[status]||0)+1;
       const card=document.createElement("div");card.className=`student-card ${status!=="none"?`status-${status}`:""}`;
-      const mark=status==="none"?"?":"✓";
+      const mark=status==="none"?"?":({green:"😊",yellow:"😐",red:"☹️"}[status]||"?");
       card.innerHTML=`<div class="status-mark">${mark}</div><div class="student-name">${escapeHtml(shortName(name))}</div>`;grid.appendChild(card);
     });
     updateSummary(counts);
