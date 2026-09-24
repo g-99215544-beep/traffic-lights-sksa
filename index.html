@@ -24,7 +24,7 @@
     .status-mark{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;margin-bottom:6px;background:#f1f5f9;border:4px solid #fff;box-shadow:0 0 0 2px var(--gray),0 4px 10px rgba(15,23,42,.10);font-size:24px;font-weight:950;color:#64748b;flex:0 0 auto}.status-green .status-mark{background:var(--green);box-shadow:0 0 0 2px #86efac,0 4px 10px rgba(15,23,42,.10);color:#fff}.status-yellow .status-mark{background:var(--yellow);box-shadow:0 0 0 2px #fde68a,0 4px 10px rgba(15,23,42,.10);color:#fff}.status-red .status-mark{background:var(--red);box-shadow:0 0 0 2px #fca5a5,0 4px 10px rgba(15,23,42,.10);color:#fff}.student-name{font-weight:900;font-size:12px;line-height:1.12;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;word-break:break-word}.student-meta{font-size:10px;color:var(--muted);margin-top:4px;line-height:1.15}.tap-hint{font-size:9px;color:#2563eb;font-weight:800;margin-top:4px;line-height:1.1}
     .summary{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:11px;margin-bottom:16px}.summary-card{border:1px solid var(--line);border-radius:18px;padding:14px;background:#fff}.summary-num{font-size:28px;font-weight:950}.summary-label{color:var(--muted);font-size:12px;font-weight:750;margin-top:2px}.majority{border:2px solid #bfdbfe;background:#eff6ff}.majority .summary-num{font-size:19px;line-height:1.2}.distribution{display:flex;height:14px;border-radius:999px;overflow:hidden;background:#e2e8f0;margin:8px 0 17px}.distribution span{height:100%;transition:width .25s}.d-green{background:var(--green)}.d-yellow{background:var(--yellow)}.d-red{background:var(--red)}.legend{display:flex;gap:12px;flex-wrap:wrap;color:var(--muted);font-size:13px;margin-bottom:14px}.legend b{display:inline-flex;align-items:center;gap:5px}.dot{width:10px;height:10px;border-radius:50%;display:inline-block}
     .empty{padding:34px 18px;text-align:center;border:2px dashed var(--line);border-radius:20px;color:var(--muted);background:#f8fafc}.empty strong{color:var(--text);display:block;font-size:18px;margin-bottom:4px}.loading{padding:28px;text-align:center;color:var(--muted)}.small-note{font-size:12px;color:var(--muted);line-height:1.5;margin-top:16px}
-    .modal-backdrop{position:fixed;inset:0;background:rgba(15,23,42,.48);display:grid;place-items:center;padding:18px;z-index:100}.modal{width:min(430px,100%);background:#fff;border-radius:24px;padding:22px;box-shadow:0 24px 70px rgba(15,23,42,.28)}.modal-title{font-size:22px;font-weight:950;margin-bottom:4px}.modal-name{color:var(--muted);font-weight:750;margin-bottom:18px}.modal select{font-size:17px;padding:15px}.modal-actions{display:flex;justify-content:flex-end;margin-top:12px}.modal-close{border:0;background:#e2e8f0;border-radius:12px;padding:10px 14px;font-weight:850}
+    .modal-backdrop{position:fixed;inset:0;background:rgba(15,23,42,.48);display:grid;place-items:center;padding:18px;z-index:100}.modal{width:min(720px,96vw);background:#fff;border-radius:24px;padding:22px;box-shadow:0 24px 70px rgba(15,23,42,.28)}.modal-title{font-size:22px;font-weight:950;margin-bottom:4px}.modal-name{color:var(--muted);font-weight:800;margin-bottom:18px}.choice-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.choice-btn{border:2px solid var(--line);background:#fff;border-radius:18px;padding:16px 12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;min-height:150px;transition:.18s}.choice-btn:hover{transform:translateY(-2px);box-shadow:var(--shadow)}.choice-btn:active{transform:scale(.98)}.choice-btn.green{border-color:#86efac;background:#f0fdf4}.choice-btn.yellow{border-color:#fde68a;background:#fffbeb}.choice-btn.red{border-color:#fca5a5;background:#fef2f2}.choice-light{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;color:#fff;font-size:18px;font-weight:900}.choice-btn.green .choice-light{background:var(--green)}.choice-btn.yellow .choice-light{background:var(--yellow)}.choice-btn.red .choice-light{background:var(--red)}.choice-emoji{font-size:42px;line-height:1}.choice-label{font-size:18px;font-weight:900;text-align:center}.choice-sub{font-size:12px;color:var(--muted);text-align:center}.modal-actions{display:flex;justify-content:flex-end;margin-top:14px}.modal-close{border:0;background:#e2e8f0;border-radius:12px;padding:10px 14px;font-weight:850}@media(max-width:760px){.modal{width:min(96vw,620px);padding:16px}.choice-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.choice-btn{min-height:120px;padding:10px 6px}.choice-emoji{font-size:34px}.choice-label{font-size:14px}.choice-sub{font-size:10px}}@media(orientation:landscape){.modal{width:min(760px,94vw);padding:14px 16px}.modal-title{font-size:18px}.modal-name{font-size:13px;margin-bottom:10px}.choice-grid{gap:8px}.choice-btn{min-height:100px;padding:8px}.choice-light{width:26px;height:26px;font-size:14px}.choice-emoji{font-size:30px}.choice-label{font-size:13px}.choice-sub{display:none}.modal-actions{margin-top:8px}.modal-close{padding:7px 10px;font-size:11px}}
     .toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(20px);background:#0f172a;color:#fff;padding:12px 18px;border-radius:14px;opacity:0;pointer-events:none;transition:.2s;box-shadow:var(--shadow);z-index:120}.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
     @media(max-width:760px){.wrap{padding:10px}.topbar{align-items:flex-start;margin-bottom:10px}.role-grid{grid-template-columns:1fr}.summary{grid-template-columns:repeat(2,minmax(0,1fr))}.summary .majority{grid-column:1/-1}.grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}.student-card{min-height:92px;padding:7px}.student-name{font-size:10px}.status-mark{width:34px;height:34px;font-size:19px;margin-bottom:4px}.student-meta{font-size:9px}.tap-hint{font-size:8px}}
     @media(min-width:761px) and (max-width:1199px){.grid{grid-template-columns:repeat(6,minmax(0,1fr))}}
@@ -142,15 +142,32 @@
 
 <div id="statusModal" class="modal-backdrop hidden" onclick="modalBackdropClick(event)">
   <div class="modal">
-    <div class="modal-title">Pilih warna</div>
+    <div class="modal-title">Pilih tahap kefahaman</div>
     <div id="modalStudentName" class="modal-name"></div>
-    <label for="statusSelect">Tahap kefahaman</label>
-    <select id="statusSelect">
-      <option value="">— Pilih warna —</option>
-      <option value="green">🟢 Hijau — Faham</option>
-      <option value="yellow">🟡 Kuning — Kurang faham</option>
-      <option value="red">🔴 Merah — Tak faham</option>
-    </select>
+
+    <div class="choice-grid">
+      <button type="button" class="choice-btn red" onclick="submitStatusForStudent('red')">
+        <div class="choice-light">●</div>
+        <div class="choice-emoji">☹️</div>
+        <div class="choice-label">Tak faham</div>
+        <div class="choice-sub">Merah · muka masam</div>
+      </button>
+
+      <button type="button" class="choice-btn yellow" onclick="submitStatusForStudent('yellow')">
+        <div class="choice-light">●</div>
+        <div class="choice-emoji">😐</div>
+        <div class="choice-label">Kurang faham</div>
+        <div class="choice-sub">Kuning · muka neutral</div>
+      </button>
+
+      <button type="button" class="choice-btn green" onclick="submitStatusForStudent('green')">
+        <div class="choice-light">●</div>
+        <div class="choice-emoji">😊</div>
+        <div class="choice-label">Faham</div>
+        <div class="choice-sub">Hijau · muka senyum</div>
+      </button>
+    </div>
+
     <div class="modal-actions"><button class="modal-close" onclick="closeStatusModal()">Tutup</button></div>
   </div>
 </div>
@@ -498,7 +515,7 @@
     const pct=n=>answered?`${(n/answered)*100}%`:"0%";$("barGreen").style.width=pct(c.green||0);$("barYellow").style.width=pct(c.yellow||0);$("barRed").style.width=pct(c.red||0);
   }
 
-  function openStatusModal(name,current){selectedStudent=name;$("modalStudentName").textContent=name;$("statusSelect").value=current==="none"?"":current;$("statusModal").classList.remove("hidden")}
+  function openStatusModal(name,current){selectedStudent=name;$("modalStudentName").textContent=name;$("statusModal").classList.remove("hidden")}
   function closeStatusModal(){selectedStudent=null;$("statusModal").classList.add("hidden")}
   function modalBackdropClick(e){if(e.target===$("statusModal"))closeStatusModal()}
 
@@ -520,7 +537,6 @@
 
   document.addEventListener("DOMContentLoaded",async()=>{
     $("studentToday").textContent=todayLabel();$("teacherToday").textContent=todayLabel();
-    $("statusSelect").addEventListener("change",e=>{if(e.target.value)submitStatusForStudent(e.target.value)});
     await initFirebase();
     $("studentClass").addEventListener("change",startStudentLive);$("teacherClass").addEventListener("change",startTeacherLive);
   });
