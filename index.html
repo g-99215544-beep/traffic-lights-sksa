@@ -140,6 +140,17 @@
     return `m_${(h>>>0).toString(36)}`;
   }
 
+  // Nama murid digunakan sebagai key di absenceStatus oleh app kehadiran.
+  function safeFirebaseName(name){
+    return String(name??"").replace(/[.#$\/\[\]]/g,"_");
+  }
+
+  function absentNamesFromAbsenceStatus(node, roster){
+    if(!node || !isObj(node)) return [];
+    const absentKeys=new Set(Object.keys(node).map(k=>canon(k)));
+    return roster.filter(name=>absentKeys.has(canon(safeFirebaseName(name))));
+  }
+
   function normalizeRosterNode(node){
     const out={}; if(!node) return out;
     Object.entries(node).forEach(([cls,val])=>{
@@ -262,18 +273,48 @@
 
   function subscribePresentStudents(className, cb, unsubBucket){
     if(mode!=="firebase"){cb(demoPresent(className));return}
-    const roster=rosters[className]||[], date=todayMY();
-    let attNode=null, absNode=null;
+
+    const roster=rosters[className]||[];
+    const date=todayMY();
+
+    // Sumber kebenaran:
+    // 1) kehadiran/{tarikh}/{kelas} hanya digunakan untuk sahkan kehadiran hari ini sudah dihantar.
+    // 2) absenceStatus/{tarikh}/{kelas} mengandungi HANYA murid tidak hadir.
+    // 3) Murid hadir = roster penuh - semua key dalam absenceStatus.
+    let attendanceSubmitted=false;
+    let absenceLoaded=false;
+    let absNode=null;
+
     const emit=()=>{
-      const parsed=parseAttendanceNode(attNode,roster);
-      if(parsed.detected){cb(parsed.present);return}
-      const absent=parseAbsenceNode(absNode,roster);
-      if(absNode!=null){const aset=new Set(absent.map(canon));cb(roster.filter(n=>!aset.has(canon(n))));return}
-      cb([]);
+      if(!attendanceSubmitted || !absenceLoaded){
+        cb([]);
+        return;
+      }
+      const absent=absentNamesFromAbsenceStatus(absNode,roster);
+      const absentSet=new Set(absent.map(canon));
+      cb(roster.filter(name=>!absentSet.has(canon(name))));
     };
-    const ar=db.ref(`${PATHS.attendance}/${date}/${className}`), xr=db.ref(`${PATHS.absenceStatus}/${date}/${className}`);
-    const ac=s=>{attNode=s.val();emit()}, xc=s=>{absNode=s.val();emit()};
-    ar.on("value",ac);xr.on("value",xc);unsubBucket.push(()=>ar.off("value",ac),()=>xr.off("value",xc));
+
+    const attendanceRef=db.ref(`${PATHS.attendance}/${date}/${className}`);
+    const absenceRef=db.ref(`${PATHS.absenceStatus}/${date}/${className}`);
+
+    const onAttendance=snap=>{
+      attendanceSubmitted=snap.exists();
+      emit();
+    };
+    const onAbsence=snap=>{
+      absNode=snap.val()||{};
+      absenceLoaded=true;
+      emit();
+    };
+
+    attendanceRef.on("value",onAttendance);
+    absenceRef.on("value",onAbsence);
+
+    unsubBucket.push(
+      ()=>attendanceRef.off("value",onAttendance),
+      ()=>absenceRef.off("value",onAbsence)
+    );
   }
 
   function subscribeTraffic(className, cb, unsubBucket){
