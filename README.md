@@ -2,6 +2,10 @@
 
 Aplikasi **Lampu Isyarat Kefahaman** untuk kegunaan guru dan murid SKSA.
 
+## Link live
+
+https://g-99215544-beep.github.io/traffic-lights-sksa/
+
 ## Fungsi utama
 
 - Murid pilih kelas sahaja.
