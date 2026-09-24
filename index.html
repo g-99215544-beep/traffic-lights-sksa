@@ -55,6 +55,8 @@
       .topbar{min-height:42px}.logo{width:40px;height:40px}h1{font-size:19px}
     }
   
+    body.student-only #roleScreen{display:none!important}
+    body.student-only #studentScreen .back{display:none!important}
     .fullscreen-btn{width:44px;min-width:44px;padding:10px 0;font-size:20px;line-height:1}
     body.fullscreen-fit{overflow:hidden;background:#f8fafc}
     body.fullscreen-fit .wrap{max-width:none;width:100vw;height:100vh;padding:4px;display:flex;flex-direction:column}
@@ -204,6 +206,7 @@
   const canon=s=>String(s??"").normalize("NFKD").replace(/[\u0300-\u036f]/g,"").toUpperCase().replace(/[^A-Z0-9]+/g," ").trim();
   const statusLabel={green:"🟢 Faham",yellow:"🟡 Kurang faham",red:"🔴 Tak faham"};
   const isObj=v=>v && typeof v==="object" && !Array.isArray(v);
+  const studentOnly=new URLSearchParams(location.search).get("mode")==="student";
   const shortName=name=>String(name??"").trim().split(/\s+/).filter(Boolean).slice(0,2).join(" ");
 
   function activeGrid(){
@@ -268,7 +271,7 @@
   function setBadge(text,cls=""){const b=$("connectionBadge");b.textContent=text;b.className=`connection ${cls}`}
   function hideAll(){["roleScreen","studentScreen","teacherScreen"].forEach(id=>$(id).classList.add("hidden"))}
   function stopListeners(list){while(list.length){try{list.pop()()}catch{}}}
-  function goHome(){if(document.body.classList.contains("fullscreen-fit"))exitFitFullscreen();stopListeners(studentUnsubs);stopListeners(teacherUnsubs);hideAll();$("roleScreen").classList.remove("hidden")}
+  function goHome(){if(studentOnly)return;if(document.body.classList.contains("fullscreen-fit"))exitFitFullscreen();stopListeners(studentUnsubs);stopListeners(teacherUnsubs);hideAll();$("roleScreen").classList.remove("hidden")}
 
   function studentKey(name){
     let h=2166136261; for(const ch of String(name)){h^=ch.charCodeAt(0);h=Math.imul(h,16777619)}
@@ -539,6 +542,10 @@
     $("studentToday").textContent=todayLabel();$("teacherToday").textContent=todayLabel();
     await initFirebase();
     $("studentClass").addEventListener("change",startStudentLive);$("teacherClass").addEventListener("change",startTeacherLive);
+    if(studentOnly){
+      document.body.classList.add("student-only");
+      showStudent();
+    }
   });
 </script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
