@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0f172a" />
+  <title>Lampu Isyarat Kefahaman</title>
+  <style>
+    :root{
+      --bg:#f8fafc;--card:#fff;--text:#0f172a;--muted:#64748b;--line:#e2e8f0;
+      --green:#22c55e;--yellow:#f59e0b;--red:#ef4444;--gray:#cbd5e1;--blue:#2563eb;
+      --shadow:0 12px 30px rgba(15,23,42,.08)
+    }
+    *{box-sizing:border-box} body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:linear-gradient(180deg,#eff6ff 0,#f8fafc 42%);color:var(--text);min-height:100vh}
+    button,select{font:inherit} button{cursor:pointer}.hidden{display:none!important}
+    .wrap{max-width:1220px;margin:auto;padding:22px}.topbar{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:20px}.brand{display:flex;align-items:center;gap:12px}.logo{width:48px;height:48px;border-radius:16px;background:#0f172a;display:grid;place-items:center;box-shadow:var(--shadow)}.logo-lights{display:flex;gap:4px}.logo-lights i{width:8px;height:8px;border-radius:50%;display:block}.logo-lights i:nth-child(1){background:var(--red)}.logo-lights i:nth-child(2){background:var(--yellow)}.logo-lights i:nth-child(3){background:var(--green)}
+    h1{margin:0;font-size:clamp(22px,3vw,34px)}.subtitle{font-size:14px;color:var(--muted);margin-top:2px}.panel{background:rgba(255,255,255,.95);border:1px solid var(--line);border-radius:24px;box-shadow:var(--shadow);padding:22px}.section-title{font-size:23px;font-weight:900;margin:0 0 8px}.section-sub{color:var(--muted);margin:0 0 18px;line-height:1.5}
+    .role-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:18px}.role-card{border:2px solid var(--line);border-radius:22px;padding:26px;text-align:left;background:#fff;transition:.18s;min-height:170px}.role-card:hover{transform:translateY(-2px);border-color:#93c5fd;box-shadow:var(--shadow)}.role-icon{font-size:42px}.role-title{font-size:24px;font-weight:900;margin:10px 0 6px}.role-desc{color:var(--muted);line-height:1.5}
+    label{font-size:13px;color:var(--muted);font-weight:800;display:block;margin-bottom:7px}select{width:100%;padding:13px 14px;border:1px solid var(--line);border-radius:14px;background:#fff;color:var(--text);outline:none}select:focus{border-color:#60a5fa;box-shadow:0 0 0 3px rgba(96,165,250,.18)}
+    .toolbar{display:flex;align-items:end;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-bottom:18px}.field{min-width:220px;flex:0 1 320px}.toolbar-actions{display:flex;gap:8px;flex-wrap:wrap}.btn{border:0;border-radius:12px;padding:11px 14px;font-weight:850}.btn-secondary{background:#e2e8f0;color:#0f172a}.btn-danger{background:#fee2e2;color:#991b1b}.back{background:transparent;border:0;color:#2563eb;font-weight:850;padding:6px 0;margin-bottom:10px}
+    .connection{font-size:12px;padding:7px 10px;border-radius:999px;background:#f1f5f9;color:#475569;font-weight:800;white-space:nowrap}.connection.live{background:#dcfce7;color:#166534}.connection.demo{background:#fef3c7;color:#92400e}.connection.error{background:#fee2e2;color:#991b1b}
+    .info-strip{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:12px 14px;border:1px solid #bfdbfe;background:#eff6ff;border-radius:16px;margin-bottom:16px}.today{font-weight:900}.attendance-count{color:#1d4ed8;font-weight:850}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px}.student-card{position:relative;background:#fff;border:2px solid var(--line);border-radius:20px;padding:15px;text-align:center;min-height:155px;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:.18s;user-select:none}.student-card.clickable:hover{transform:translateY(-2px);box-shadow:var(--shadow);border-color:#93c5fd}.student-card.clickable:active{transform:scale(.985)}.student-card.status-green{border-color:#86efac;background:#f0fdf4}.student-card.status-yellow{border-color:#fde68a;background:#fffbeb}.student-card.status-red{border-color:#fca5a5;background:#fef2f2}
+    .status-mark{width:64px;height:64px;border-radius:50%;display:grid;place-items:center;margin-bottom:10px;background:#f1f5f9;border:5px solid #fff;box-shadow:0 0 0 2px var(--gray),0 7px 16px rgba(15,23,42,.10);font-size:34px;font-weight:950;color:#64748b}.status-green .status-mark{background:var(--green);box-shadow:0 0 0 2px #86efac,0 7px 16px rgba(15,23,42,.10);color:#fff}.status-yellow .status-mark{background:var(--yellow);box-shadow:0 0 0 2px #fde68a,0 7px 16px rgba(15,23,42,.10);color:#fff}.status-red .status-mark{background:var(--red);box-shadow:0 0 0 2px #fca5a5,0 7px 16px rgba(15,23,42,.10);color:#fff}.student-name{font-weight:900;font-size:15px;line-height:1.25}.student-meta{font-size:12px;color:var(--muted);margin-top:6px}.tap-hint{font-size:11px;color:#2563eb;font-weight:800;margin-top:7px}
+    .summary{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:11px;margin-bottom:16px}.summary-card{border:1px solid var(--line);border-radius:18px;padding:14px;background:#fff}.summary-num{font-size:28px;font-weight:950}.summary-label{color:var(--muted);font-size:12px;font-weight:750;margin-top:2px}.majority{border:2px solid #bfdbfe;background:#eff6ff}.majority .summary-num{font-size:19px;line-height:1.2}.distribution{display:flex;height:14px;border-radius:999px;overflow:hidden;background:#e2e8f0;margin:8px 0 17px}.distribution span{height:100%;transition:width .25s}.d-green{background:var(--green)}.d-yellow{background:var(--yellow)}.d-red{background:var(--red)}.legend{display:flex;gap:12px;flex-wrap:wrap;color:var(--muted);font-size:13px;margin-bottom:14px}.legend b{display:inline-flex;align-items:center;gap:5px}.dot{width:10px;height:10px;border-radius:50%;display:inline-block}
+    .empty{padding:34px 18px;text-align:center;border:2px dashed var(--line);border-radius:20px;color:var(--muted);background:#f8fafc}.empty strong{color:var(--text);display:block;font-size:18px;margin-bottom:4px}.loading{padding:28px;text-align:center;color:var(--muted)}.small-note{font-size:12px;color:var(--muted);line-height:1.5;margin-top:16px}
+    .modal-backdrop{position:fixed;inset:0;background:rgba(15,23,42,.48);display:grid;place-items:center;padding:18px;z-index:100}.modal{width:min(430px,100%);background:#fff;border-radius:24px;padding:22px;box-shadow:0 24px 70px rgba(15,23,42,.28)}.modal-title{font-size:22px;font-weight:950;margin-bottom:4px}.modal-name{color:var(--muted);font-weight:750;margin-bottom:18px}.modal select{font-size:17px;padding:15px}.modal-actions{display:flex;justify-content:flex-end;margin-top:12px}.modal-close{border:0;background:#e2e8f0;border-radius:12px;padding:10px 14px;font-weight:850}
+    .toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(20px);background:#0f172a;color:#fff;padding:12px 18px;border-radius:14px;opacity:0;pointer-events:none;transition:.2s;box-shadow:var(--shadow);z-index:120}.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+    @media(max-width:760px){.wrap{padding:13px}.topbar{align-items:flex-start}.role-grid{grid-template-columns:1fr}.summary{grid-template-columns:repeat(2,minmax(0,1fr))}.summary .majority{grid-column:1/-1}.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.student-card{min-height:145px;padding:12px}.student-name{font-size:14px}}
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <div class="brand"><div class="logo"><div class="logo-lights"><i></i><i></i><i></i></div></div><div><h1>Lampu Isyarat Kefahaman</h1><div class="subtitle">Status kefahaman murid hadir — kemas kini secara langsung</div></div></div>
+    <div id="connectionBadge" class="connection">Memuatkan…</div>
+  </div>
+
+  <section id="roleScreen" class="panel">
+    <div class="section-title">Pilih cara masuk</div>
+    <div class="role-grid">
+      <button class="role-card" onclick="showStudent()"><div class="role-icon">🧑‍🎓</div><div class="role-title">Murid</div><div class="role-desc">Pilih kelas. Nama murid yang hadir hari ini akan keluar dalam kotak.</div></button>
+      <button class="role-card" onclick="showTeacher()"><div class="role-icon">🧑‍🏫</div><div class="role-title">Guru</div><div class="role-desc">Lihat semua murid hadir, warna kefahaman, dan majoriti kelas secara live.</div></button>
+    </div>
+  </section>
+
+  <section id="studentScreen" class="panel hidden">
+    <button class="back" onclick="goHome()">← Kembali</button>
+    <div class="section-title">Paparan Murid</div>
+    <p class="section-sub">Pilih kelas, kemudian tekan <b>kotak nama sendiri</b> untuk memilih warna kefahaman.</p>
+    <div class="toolbar"><div class="field"><label for="studentClass">Kelas</label><select id="studentClass"></select></div></div>
+    <div class="info-strip"><div class="today" id="studentToday"></div><div class="attendance-count" id="studentAttendanceCount">0 murid hadir</div></div>
+    <div id="studentGridState" class="loading">Memuatkan murid hadir…</div>
+    <div id="studentGrid" class="grid"></div>
+    <div class="small-note">Kotak bertanda <b>?</b> bermaksud murid belum memilih warna. Tekan semula kotak untuk menukar respons.</div>
+  </section>
+
+  <section id="teacherScreen" class="panel hidden">
+    <button class="back" onclick="goHome()">← Kembali</button>
+    <div class="toolbar">
+      <div class="field"><label for="teacherClass">Pilih kelas</label><select id="teacherClass"></select></div>
+      <div class="toolbar-actions"><button class="btn btn-secondary" onclick="refreshTeacher()">↻ Segar semula</button><button class="btn btn-danger" onclick="resetClass()">Reset respons hari ini</button></div>
+    </div>
+    <div class="info-strip"><div class="today" id="teacherToday"></div><div class="attendance-count" id="teacherAttendanceCount">0 murid hadir</div></div>
+    <div class="summary">
+      <div class="summary-card"><div id="countGreen" class="summary-num">0</div><div class="summary-label">🟢 Faham</div></div>
+      <div class="summary-card"><div id="countYellow" class="summary-num">0</div><div class="summary-label">🟡 Kurang faham</div></div>
+      <div class="summary-card"><div id="countRed" class="summary-num">0</div><div class="summary-label">🔴 Tak faham</div></div>
+      <div class="summary-card"><div id="countNone" class="summary-num">0</div><div class="summary-label">❔ Belum jawab</div></div>
+      <div class="summary-card majority"><div id="majorityText" class="summary-num">Belum ada data</div><div class="summary-label">Majoriti respons</div></div>
+    </div>
+    <div class="distribution"><span id="barGreen" class="d-green"></span><span id="barYellow" class="d-yellow"></span><span id="barRed" class="d-red"></span></div>
+    <div class="legend"><b><span class="dot" style="background:var(--green)"></span> Faham</b><b><span class="dot" style="background:var(--yellow)"></span> Kurang faham</b><b><span class="dot" style="background:var(--red)"></span> Tak faham</b><b><span class="dot" style="background:var(--gray)"></span> ? Belum jawab</b></div>
+    <div id="teacherGridState" class="loading">Memuatkan murid hadir…</div>
+    <div id="teacherGrid" class="grid"></div>
+  </section>
+</div>
+
+<div id="statusModal" class="modal-backdrop hidden" onclick="modalBackdropClick(event)">
+  <div class="modal">
+    <div class="modal-title">Pilih warna</div>
+    <div id="modalStudentName" class="modal-name"></div>
+    <label for="statusSelect">Tahap kefahaman</label>
+    <select id="statusSelect">
+      <option value="">— Pilih warna —</option>
+      <option value="green">🟢 Hijau — Faham</option>
+      <option value="yellow">🟡 Kuning — Kurang faham</option>
+      <option value="red">🔴 Merah — Tak faham</option>
+    </select>
+    <div class="modal-actions"><button class="modal-close" onclick="closeStatusModal()">Tutup</button></div>
+  </div>
+</div>
+<div id="toast" class="toast"></div>
+
+<script>
+  // =========================================================
+  // Firebase projek aplikasi kehadiran sekolah.
+  // databaseURL ini ialah pangkalan data kehadiran sedia ada.
+  // =========================================================
+  const FIREBASE_CONFIG = {
+    projectId: "kehadiran-murid-6ece0",
+    databaseURL: "https://kehadiran-murid-6ece0-default-rtdb.asia-southeast1.firebasedatabase.app"
+  };
+
+  const PATHS = {
+    classData: "config/classes/classData",
+    attendance: "kehadiran",
+    absenceStatus: "absenceStatus",
+    trafficLight: "trafficLight"
+  };
+
+  // Fallback hanya untuk preview jika Firebase tidak dapat dicapai.
+  const DEMO_ROSTERS = {"4G":["Murid 1","Murid 2","Murid 3","Murid 4","Murid 5","Murid 6","Murid 7","Murid 8"]};
+
+  let db=null, mode="firebase", rosters={};
+  let studentUnsubs=[], teacherUnsubs=[];
+  let studentAttendance=[], teacherAttendance=[];
+  let studentTraffic={}, teacherTraffic={};
+  let selectedStudent=null;
+
+  const $=id=>document.getElementById(id);
+  const escapeHtml=s=>String(s??"").replace(/[&<>'"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","'":"&#39;",'"':"&quot;"}[c]));
+  const canon=s=>String(s??"").normalize("NFKD").replace(/[\u0300-\u036f]/g,"").toUpperCase().replace(/[^A-Z0-9]+/g," ").trim();
+  const statusLabel={green:"🟢 Faham",yellow:"🟡 Kurang faham",red:"🔴 Tak faham"};
+  const isObj=v=>v && typeof v==="object" && !Array.isArray(v);
+
+  function todayMY(){
+    const p=new Intl.DateTimeFormat("en-CA",{timeZone:"Asia/Kuala_Lumpur",year:"numeric",month:"2-digit",day:"2-digit"}).formatToParts(new Date());
+    const o=Object.fromEntries(p.map(x=>[x.type,x.value])); return `${o.year}-${o.month}-${o.day}`;
+  }
+  function todayLabel(){return new Intl.DateTimeFormat("ms-MY",{timeZone:"Asia/Kuala_Lumpur",weekday:"long",day:"numeric",month:"long",year:"numeric"}).format(new Date());}
+  function toast(msg){const t=$("toast");t.textContent=msg;t.classList.add("show");setTimeout(()=>t.classList.remove("show"),1900)}
+  function setBadge(text,cls=""){const b=$("connectionBadge");b.textContent=text;b.className=`connection ${cls}`}
+  function hideAll(){["roleScreen","studentScreen","teacherScreen"].forEach(id=>$(id).classList.add("hidden"))}
+  function stopListeners(list){while(list.length){try{list.pop()()}catch{}}}
+  function goHome(){stopListeners(studentUnsubs);stopListeners(teacherUnsubs);hideAll();$("roleScreen").classList.remove("hidden")}
+
+  function studentKey(name){
+    let h=2166136261; for(const ch of String(name)){h^=ch.charCodeAt(0);h=Math.imul(h,16777619)}
+    return `m_${(h>>>0).toString(36)}`;
+  }
+
+  function normalizeRosterNode(node){
+    const out={}; if(!node) return out;
+    Object.entries(node).forEach(([cls,val])=>{
+      let arr=[];
+      if(Array.isArray(val)) arr=val;
+      else if(isObj(val)) arr=Object.values(val);
+      arr=arr.map(v=>typeof v==="string"?v:(v?.name||v?.nama||v?.studentName||"")).filter(Boolean);
+      if(arr.length) out[cls]=arr;
+    });
+    return out;
+  }
+
+  function populateClasses(selectId){
+    const sel=$(selectId), prev=sel.value; sel.innerHTML="";
+    Object.keys(rosters).sort((a,b)=>a.localeCompare(b,undefined,{numeric:true})).forEach(c=>{const o=document.createElement("option");o.value=c;o.textContent=c;sel.appendChild(o)});
+    if(prev && rosters[prev]) sel.value=prev;
+  }
+
+  function asNames(v, roster=[]){
+    const out=[];
+    if(v==null) return out;
+    if(typeof v==="string") return v.split(/[,;\n]/).map(s=>s.trim()).filter(Boolean);
+    if(Array.isArray(v)){
+      if(v.every(x=>typeof x==="boolean" || x==null)) return v.map((x,i)=>x?roster[i]:null).filter(Boolean);
+      v.forEach((x,i)=>{
+        if(typeof x==="string") out.push(x);
+        else if(isObj(x)){
+          const n=x.name||x.nama||x.studentName||x.namaMurid||x.murid||x.fullName; if(n) out.push(n);
+          else if(typeof x.hadir==="boolean" && x.hadir && roster[i]) out.push(roster[i]);
+        }
+      });
+      return out;
+    }
+    if(isObj(v)){
+      Object.entries(v).forEach(([k,x])=>{
+        if(typeof x==="string" && !/^\d+$/.test(k)){
+          const sx=classifyStatus(x); if(sx==="present") out.push(k); else if(!sx && canon(k).length>2) out.push(x);
+        } else if(typeof x==="boolean" && x){ out.push(/^\d+$/.test(k)&&roster[+k]?roster[+k]:k); }
+        else if(isObj(x)){const n=x.name||x.nama||x.studentName||x.namaMurid||x.murid||x.fullName;if(n)out.push(n)}
+      });
+    }
+    return out.filter(Boolean);
+  }
+
+  function classifyStatus(v){
+    if(v===true || v===1) return "present"; if(v===false || v===0) return "absent";
+    const s=canon(v).replace(/ /g,"");
+    if(["HADIR","PRESENT","H","LEWAT","LATE","1","TRUE"].includes(s)) return "present";
+    if(["TIDAKHADIR","ABSENT","PONTENG","MC","SAKIT","CUTI","0","FALSE"].includes(s)) return "absent";
+    return null;
+  }
+
+  function rosterOrdered(names, roster){
+    const set=new Set(names.map(canon)); return roster.filter(n=>set.has(canon(n)));
+  }
+
+  function parseAttendanceNode(node, roster){
+    if(!node) return {present:[],absent:[],detected:false};
+    const presentFields=["hadir","present","muridHadir","presentStudents","studentsPresent","senaraiHadir","murid_hadir"];
+    const absentFields=["tidakHadir","tidakhadir","absent","muridTidakHadir","ponteng","senaraiTidakHadir","murid_tidak_hadir"];
+    for(const f of presentFields) if(node?.[f]!=null){const names=asNames(node[f],roster);return {present:rosterOrdered(names,roster),absent:[],detected:true}}
+    for(const f of absentFields) if(node?.[f]!=null){const names=asNames(node[f],roster);const absent=rosterOrdered(names,roster);const aset=new Set(absent.map(canon));return {present:roster.filter(n=>!aset.has(canon(n))),absent,detected:true}}
+
+    const containers=["students","murid","attendance","data","records","senarai"];
+    for(const f of containers){if(node?.[f]!=null && node[f]!==node){const r=parseAttendanceNode(node[f],roster);if(r.detected)return r}}
+
+    if(Array.isArray(node)){
+      if(node.every(x=>typeof x==="string" || x==null)) return {present:rosterOrdered(node.filter(Boolean),roster),absent:[],detected:true};
+      let p=[],a=[],saw=false;
+      node.forEach((x,i)=>{if(isObj(x)){const n=x.name||x.nama||x.studentName||x.namaMurid||x.murid||roster[i];const st=classifyStatus(x.hadir??x.status??x.kehadiran??x.attendance);if(st&&n){saw=true;(st==="present"?p:a).push(n)}} else if(typeof x==="boolean"&&roster[i]){saw=true;(x?p:a).push(roster[i])}});
+      if(saw)return {present:rosterOrdered(p,roster),absent:rosterOrdered(a,roster),detected:true};
+    }
+
+    if(isObj(node)){
+      let p=[],a=[],saw=false;
+      Object.entries(node).forEach(([k,v])=>{
+        if(["tarikh","kelas","jumlah","namaGuru","tempat","jenis","timestamp","updatedAt"].includes(k))return;
+        let n=null,st=null;
+        if(isObj(v)){n=v.name||v.nama||v.studentName||v.namaMurid||v.murid||(!/^\d+$/.test(k)?k:null);st=classifyStatus(v.hadir??v.status??v.kehadiran??v.attendance)}
+        else {n=/^\d+$/.test(k)?roster[+k]:k;st=classifyStatus(v)}
+        if(n&&st){saw=true;(st==="present"?p:a).push(n)}
+      });
+      if(saw)return {present:rosterOrdered(p,roster),absent:rosterOrdered(a,roster),detected:true};
+    }
+    return {present:[],absent:[],detected:false};
+  }
+
+  function parseAbsenceNode(node, roster){
+    if(!node) return [];
+    const parsed=parseAttendanceNode(node,roster); if(parsed.detected && parsed.absent.length) return parsed.absent;
+    const names=[];
+    if(Array.isArray(node)) return rosterOrdered(asNames(node,roster),roster);
+    if(isObj(node)){
+      Object.entries(node).forEach(([k,v])=>{
+        if(/^\d+$/.test(k) && roster[+k]) names.push(roster[+k]);
+        else if(roster.some(n=>canon(n)===canon(k))) names.push(k);
+        else if(isObj(v)){const n=v.name||v.nama||v.studentName||v.namaMurid||v.murid;if(n)names.push(n)}
+        else if(typeof v==="string" && roster.some(n=>canon(n)===canon(v))) names.push(v);
+      });
+    }
+    return rosterOrdered(names,roster);
+  }
+
+  async function initFirebase(){
+    try{
+      if(!window.firebase) throw new Error("Firebase library tidak dimuatkan");
+      if(!firebase.apps.length) firebase.initializeApp(FIREBASE_CONFIG);
+      db=firebase.database();
+      const snap=await db.ref(PATHS.classData).once("value"); rosters=normalizeRosterNode(snap.val());
+      if(!Object.keys(rosters).length) throw new Error("Senarai kelas tidak ditemui");
+      mode="firebase"; setBadge("LIVE FIREBASE","live");
+    }catch(e){console.error(e);mode="demo";rosters=DEMO_ROSTERS;setBadge("MOD DEMO","demo");toast("Firebase tidak dapat dibaca. Paparan demo digunakan.")}
+    populateClasses("studentClass");populateClasses("teacherClass");
+  }
+
+  function demoPresent(className){return (rosters[className]||[]).slice()}
+  function demoTrafficKey(className){return `traffic:${todayMY()}:${className}`}
+  function readDemoTraffic(className){try{return JSON.parse(localStorage.getItem(demoTrafficKey(className))||"{}") }catch{return {}}}
+  function writeDemoTraffic(className,data){localStorage.setItem(demoTrafficKey(className),JSON.stringify(data));window.dispatchEvent(new Event("traffic-demo"))}
+
+  function subscribePresentStudents(className, cb, unsubBucket){
+    if(mode!=="firebase"){cb(demoPresent(className));return}
+    const roster=rosters[className]||[], date=todayMY();
+    let attNode=null, absNode=null;
+    const emit=()=>{
+      const parsed=parseAttendanceNode(attNode,roster);
+      if(parsed.detected){cb(parsed.present);return}
+      const absent=parseAbsenceNode(absNode,roster);
+      if(absNode!=null){const aset=new Set(absent.map(canon));cb(roster.filter(n=>!aset.has(canon(n))));return}
+      cb([]);
+    };
+    const ar=db.ref(`${PATHS.attendance}/${date}/${className}`), xr=db.ref(`${PATHS.absenceStatus}/${date}/${className}`);
+    const ac=s=>{attNode=s.val();emit()}, xc=s=>{absNode=s.val();emit()};
+    ar.on("value",ac);xr.on("value",xc);unsubBucket.push(()=>ar.off("value",ac),()=>xr.off("value",xc));
+  }
+
+  function subscribeTraffic(className, cb, unsubBucket){
+    if(mode!=="firebase"){
+      const fn=()=>cb(readDemoTraffic(className)); cb(readDemoTraffic(className)); window.addEventListener("traffic-demo",fn);unsubBucket.push(()=>window.removeEventListener("traffic-demo",fn));return;
+    }
+    const ref=db.ref(`${PATHS.trafficLight}/${todayMY()}/${className}`), handler=s=>cb(s.val()||{}); ref.on("value",handler);unsubBucket.push(()=>ref.off("value",handler));
+  }
+
+  function showStudent(){stopListeners(teacherUnsubs);hideAll();$("studentScreen").classList.remove("hidden");$("studentToday").textContent=todayLabel();startStudentLive()}
+  function startStudentLive(){
+    stopListeners(studentUnsubs);const cls=$("studentClass").value;if(!cls)return;
+    studentAttendance=[];studentTraffic={};showGridLoading("student");
+    subscribePresentStudents(cls,list=>{studentAttendance=list;renderStudentGrid()},studentUnsubs);
+    subscribeTraffic(cls,data=>{studentTraffic=data||{};renderStudentGrid()},studentUnsubs);
+  }
+
+  function showTeacher(){stopListeners(studentUnsubs);hideAll();$("teacherScreen").classList.remove("hidden");$("teacherToday").textContent=todayLabel();startTeacherLive()}
+  function startTeacherLive(){
+    stopListeners(teacherUnsubs);const cls=$("teacherClass").value;if(!cls)return;
+    teacherAttendance=[];teacherTraffic={};showGridLoading("teacher");
+    subscribePresentStudents(cls,list=>{teacherAttendance=list;renderTeacher()},teacherUnsubs);
+    subscribeTraffic(cls,data=>{teacherTraffic=data||{};renderTeacher()},teacherUnsubs);
+  }
+  function refreshTeacher(){startTeacherLive();toast("Paparan disegarkan")}
+
+  function showGridLoading(which){$(which+"Grid").innerHTML="";$(which+"GridState").className="loading";$(which+"GridState").textContent="Memuatkan murid hadir…"}
+  function renderEmpty(which,msg){$(which+"Grid").innerHTML="";const s=$(which+"GridState");s.className="empty";s.innerHTML=`<strong>Tiada murid untuk dipaparkan</strong>${escapeHtml(msg)}`}
+
+  function getRec(data,name){return data?.[studentKey(name)]||{}}
+  function renderStudentGrid(){
+    const grid=$("studentGrid"),state=$("studentGridState");grid.innerHTML="";$("studentAttendanceCount").textContent=`${studentAttendance.length} murid hadir`;
+    if(!studentAttendance.length){renderEmpty("student","Pastikan kehadiran kelas hari ini sudah direkodkan.");return}
+    state.className="hidden";
+    studentAttendance.forEach(name=>{
+      const rec=getRec(studentTraffic,name),status=rec.status||"none";
+      const card=document.createElement("button");card.type="button";card.className=`student-card clickable ${status!=="none"?`status-${status}`:""}`;card.onclick=()=>openStatusModal(name,status);
+      const mark=status==="none"?"?":"✓";const meta=status==="none"?"Belum pilih":statusLabel[status];
+      card.innerHTML=`<div class="status-mark">${mark}</div><div class="student-name">${escapeHtml(name)}</div><div class="student-meta">${escapeHtml(meta)}</div><div class="tap-hint">Tekan untuk pilih warna</div>`;grid.appendChild(card);
+    });
+  }
+
+  function renderTeacher(){
+    const grid=$("teacherGrid"),state=$("teacherGridState");grid.innerHTML="";$("teacherAttendanceCount").textContent=`${teacherAttendance.length} murid hadir`;
+    if(!teacherAttendance.length){renderEmpty("teacher","Pastikan kehadiran kelas hari ini sudah direkodkan.");updateSummary({green:0,yellow:0,red:0,none:0});return}
+    state.className="hidden";const counts={green:0,yellow:0,red:0,none:0};
+    teacherAttendance.forEach(name=>{
+      const rec=getRec(teacherTraffic,name),status=rec.status||"none";counts[status]=(counts[status]||0)+1;
+      const card=document.createElement("div");card.className=`student-card ${status!=="none"?`status-${status}`:""}`;
+      const mark=status==="none"?"?":"✓";let meta=status==="none"?"Belum jawab":statusLabel[status];
+      if(rec.updatedAt){const time=new Date(rec.updatedAt).toLocaleTimeString("ms-MY",{hour:"2-digit",minute:"2-digit"});meta+=` • ${time}`}
+      card.innerHTML=`<div class="status-mark">${mark}</div><div class="student-name">${escapeHtml(name)}</div><div class="student-meta">${escapeHtml(meta)}</div>`;grid.appendChild(card);
+    });
+    updateSummary(counts);
+  }
+
+  function updateSummary(c){
+    $("countGreen").textContent=c.green||0;$("countYellow").textContent=c.yellow||0;$("countRed").textContent=c.red||0;$("countNone").textContent=c.none||0;
+    const answered=(c.green||0)+(c.yellow||0)+(c.red||0), maj=$("majorityText");
+    if(!answered) maj.textContent="Belum ada data";
+    else{const vals={green:c.green||0,yellow:c.yellow||0,red:c.red||0};const max=Math.max(...Object.values(vals));const w=Object.entries(vals).filter(([,v])=>v===max).map(([k])=>k);maj.textContent=w.length>1?"Seimbang":({green:"🟢 Majoriti faham",yellow:"🟡 Majoriti kurang faham",red:"🔴 Majoriti tak faham"}[w[0]])}
+    const pct=n=>answered?`${(n/answered)*100}%`:"0%";$("barGreen").style.width=pct(c.green||0);$("barYellow").style.width=pct(c.yellow||0);$("barRed").style.width=pct(c.red||0);
+  }
+
+  function openStatusModal(name,current){selectedStudent=name;$("modalStudentName").textContent=name;$("statusSelect").value=current==="none"?"":current;$("statusModal").classList.remove("hidden")}
+  function closeStatusModal(){selectedStudent=null;$("statusModal").classList.add("hidden")}
+  function modalBackdropClick(e){if(e.target===$("statusModal"))closeStatusModal()}
+
+  async function submitStatusForStudent(status){
+    const cls=$("studentClass").value,name=selectedStudent;if(!cls||!name||!status)return;
+    const key=studentKey(name),payload={status,name,updatedAt:Date.now()};
+    try{
+      if(mode==="firebase") await db.ref(`${PATHS.trafficLight}/${todayMY()}/${cls}/${key}`).set({status,name,updatedAt:firebase.database.ServerValue.TIMESTAMP});
+      else{const data=readDemoTraffic(cls);data[key]=payload;writeDemoTraffic(cls,data)}
+      toast(status==="green"?"🟢 Faham direkodkan":status==="yellow"?"🟡 Kurang faham direkodkan":"🔴 Tak faham direkodkan");closeStatusModal();
+    }catch(e){console.error(e);toast("Respons tidak dapat disimpan")}
+  }
+
+  async function resetClass(){
+    const cls=$("teacherClass").value;if(!cls||!confirm(`Reset semua warna kelas ${cls} untuk hari ini?`))return;
+    try{if(mode==="firebase")await db.ref(`${PATHS.trafficLight}/${todayMY()}/${cls}`).remove();else writeDemoTraffic(cls,{});toast("Respons hari ini telah direset")}
+    catch(e){console.error(e);toast("Reset gagal")}
+  }
+
+  document.addEventListener("DOMContentLoaded",async()=>{
+    $("studentToday").textContent=todayLabel();$("teacherToday").textContent=todayLabel();
+    $("statusSelect").addEventListener("change",e=>{if(e.target.value)submitStatusForStudent(e.target.value)});
+    await initFirebase();
+    $("studentClass").addEventListener("change",startStudentLive);$("teacherClass").addEventListener("change",startTeacherLive);
+  });
+</script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script>
+</body>
+</html>
