@@ -199,7 +199,7 @@
   function parseAttendanceNode(node, roster){
     if(!node) return {present:[],absent:[],detected:false};
     const presentFields=["hadir","present","muridHadir","presentStudents","studentsPresent","senaraiHadir","murid_hadir"];
-    const absentFields=["tidakHadir","tidakhadir","absent","muridTidakHadir","ponteng","senaraiTidakHadir","murid_tidak_hadir"];
+    const absentFields=["absentNames","tidakHadir","tidakhadir","absent","muridTidakHadir","ponteng","senaraiTidakHadir","murid_tidak_hadir"];
     for(const f of presentFields) if(node?.[f]!=null){const names=asNames(node[f],roster);return {present:rosterOrdered(names,roster),absent:[],detected:true}}
     for(const f of absentFields) if(node?.[f]!=null){const names=asNames(node[f],roster);const absent=rosterOrdered(names,roster);const aset=new Set(absent.map(canon));return {present:roster.filter(n=>!aset.has(canon(n))),absent,detected:true}}
 
